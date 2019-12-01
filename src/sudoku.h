@@ -12,7 +12,7 @@ public:
 
     bool operator ==(const int (*otherGrid)[9]) {
         for (int i=0; i<9*9; i++) {
-            if (grid[i%3][i/3] != otherGrid[i%3][i/3]) {
+            if (grid[i%9][i/9] != otherGrid[i%9][i/9]) {
                 return false;
             }
         }
@@ -21,7 +21,10 @@ public:
 
     bool operator ==(const Sudoku & other) {
         for (int i=0; i<9*9; i++) {
-            if (grid[i%3][i/3] != other.grid[i%3][i/3]) {
+#ifdef PRINT
+            printf("comparing grid(%d, %d)\n", i%9, i/9);
+#endif
+            if (grid[i%9][i/9] != other.grid[i%9][i/9]) {
                 return false;
             }
         }
