@@ -82,6 +82,9 @@ public:
         return true;
     }
 
+    // Returns true for every row/column location that is unassigned, returns false
+    // if all locations within the grid are assigned. When returning true, the
+    // row and column of the unassigned value is saved in the passed parameters.
     bool findUnassignedLocation(int &row, int &column) {
         for (row = 0; row < 9; row++) {
             for (column = 0; column < 9; column++) {
@@ -93,22 +96,33 @@ public:
         return false;
     }
 
+    // https://www.geeksforgeeks.org/sudoku-backtracking-7/
+    // Used link above as a reference; combined some sections to simplify the code
+    // Returns true if the values chosen lead to a solution for the Sudoku problem,
+    // returns false otherwise
     bool solve() {
-        // homework
         int row;
         int column;
+
+        // if all locations are assigned, the Sudoku grid is solved
         if (!findUnassignedLocation(row, column)) {
             return true;
         }
+
+        // test values 1 through 9
         for (int num = 1; num <= 9; num++) {
+            // check that value is valid for the location in the grid
             if (valid(num, row, column)) {
-                grid[row][column] = num;
+                grid[row][column] = num; // assign value to location
+
+                // check if value at location leads to a solution
                 if (solve()) {
                     return true;
                 }
-                grid[row][column] = 0;
+                grid[row][column] = 0; // value did not lead to a solution
             }
         }
-        return false;   // backtrack and try another value
+
+        return false; // backtrack and try another value
     }
 };
